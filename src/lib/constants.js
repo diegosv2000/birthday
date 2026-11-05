@@ -1,23 +1,21 @@
-/* Contenido y datos MOCK. El prototipo no envía ni almacena datos. */
+/* Contenido de la invitación. */
 export const CONFIG = {
   bienvenida: "Bienvenido",
-  invitacion: ["Has sido invitado al", "cumpleaños de Diego"],
+  invitacion: ["Has sido invitado al", "cumpleaños de Diego Salazar"],
   bootLines: [
     "establishing private channel",
     "a signal is waiting for you",
     "invitation found",
     "connection established",
   ],
-  direccion: "Av. Los Ejemplos 1234, Urb. Las Palmas, Lima",
-  fechaHora: "Sábado 14 de noviembre · 8:00 p.m.",
-  mapsUrl:
-    "https://www.google.com/maps/search/?api=1&query=" +
-    encodeURIComponent("Av. Los Ejemplos 1234, Urb. Las Palmas, Lima, Perú"),
+  direccion: "Jr. República del Líbano 155, Santiago de Surco, Lima",
+  fechaHora: "Sábado 28 de noviembre de 2026 · 6:30 p.m.",
+  mapsUrl: "https://maps.app.goo.gl/3y88nivanGW74iK59",
   copy: {
     title: " ",
     boot: {
       label: "INCOMING TRANSMISSION",
-      title: "Hay algo para ti.",
+      title: "Este mensaje se autodestruirá después de leerlo.",
       status: "ABRIENDO CANAL",
       ready: "CANAL ABIERTO",
     },
@@ -27,7 +25,7 @@ export const CONFIG = {
     form: {
       code: "01 / IDENTIFICACIÓN",
       eyebrow: "EL ACCESO ES PERSONAL",
-      headline: ["La noche", "empieza", "contigo."],
+      headline: ["Identifícate", "para entrar."],
       tag: "D / GUEST LIST",
       title: "Confirma tu asistencia",
       hint: "Solo necesitamos tu DNI y nombre para anotarte en la lista y que pases por recepción sin problemas.",
@@ -39,7 +37,7 @@ export const CONFIG = {
       namePlaceholder: "Tu nombre y apellidos",
       submit: "CONFIRMAR ASISTENCIA",
       submitting: "ABRIENDO TU ACCESO",
-      errorDni: "Ingresa un DNI de al menos 5 caracteres.",
+      errorDni: "Ingresa los 8 dígitos de tu DNI.",
       errorName: "Ingresa tu nombre completo (mín. 3 caracteres).",
       progress: "{count}/02 CAMPOS COMPLETOS",
       processLines: [
@@ -52,20 +50,19 @@ export const CONFIG = {
       code: "02 / ACCESO CONCEDIDO",
       status: "ESTÁS DENTRO",
       eyebrow: "ACCESS GRANTED",
-      headline: ["Nos vemos", "dentro."],
-      aside: "La mejor parte de esta noche es compartirla contigo.",
+      headline: ["Nos vemos", "el 28."],
       tag: "D / ADMIT ONE",
-      title: "Tu próximo destino",
       greeting:
-        "Gracias, {nombre}. Tu asistencia quedó registrada en esta demo.",
-      addressLabel: "EL LUGAR",
-      dateLabel: "EL MOMENTO",
+        "Acceso confirmado a nombre de {nombre}.",
+      addressLabel: "LUGAR",
+      dateLabel: "FECHA Y HORA",
       maps: "VER UBICACIÓN",
       mapsHint: "ABRIR EN GOOGLE MAPS ↗",
-      note: "DIRECCIÓN Y FECHA DE EJEMPLO",
+      warning:
+        "⚠ Sé puntual, empezamos a las 6:30 p.m.",
     },
   },
-  validation: { dniMin: 5, nameMin: 3 },
+  validation: { dniDigits: 8, nameMin: 3 },
   colors: {
     particle: "#82B7BE",
     glow: "rgba(130, 183, 190, 0.8)",

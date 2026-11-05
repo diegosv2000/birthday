@@ -1,4 +1,4 @@
-/* Orquestación y formulario de demostración. No hay peticiones de registro. */
+/* Orquestación y formulario de confirmación. No hay peticiones de registro. */
 import { CONFIG } from "./constants";
 import { ParticleSystem } from "./particles";
 import { wait, Scenes, DoorFX, runBootSequence, runIntroSequence } from "./scenes";
@@ -22,8 +22,9 @@ export async function runExperience() {
   const btnSubmit = document.getElementById("btn-submit");
   const inputDni = document.getElementById("input-dni");
   const inputName = document.getElementById("input-name");
+  const isDigits = (value) => /^\d+$/.test(value);
   const fields = [
-    { input: inputDni, block: document.getElementById("field-dni"), error: document.getElementById("error-dni"), min: CONFIG.validation.dniMin },
+    { input: inputDni, block: document.getElementById("field-dni"), error: document.getElementById("error-dni"), digits: CONFIG.validation.dniDigits },
     { input: inputName, block: document.getElementById("field-name"), error: document.getElementById("error-name"), min: CONFIG.validation.nameMin },
   ];
   let submitted = false;
@@ -37,7 +38,8 @@ export async function runExperience() {
   const updateFields = (showErrors = false) => {
     let count = 0;
     for (const f of fields) {
-      const valid = f.input.value.trim().length >= f.min;
+      const value = f.input.value.trim();
+      const valid = f.digits ? value.length === f.digits && isDigits(value) : value.length >= f.min;
       const invalid = showErrors && !valid;
       count += Number(valid);
       f.block.classList.toggle("valid", valid);
@@ -50,8 +52,11 @@ export async function runExperience() {
     return count === fields.length;
   };
   for (const f of fields) {
-    f.input.minLength = f.min;
-    f.input.addEventListener("input", () => updateFields(validated));
+    if (!f.digits) f.input.minLength = f.min;
+    f.input.addEventListener("input", () => {
+      if (f.digits) f.input.value = f.input.value.replace(/\D/g, "").slice(0, f.digits);
+      updateFields(validated);
+    });
   }
   updateFields();
 
@@ -116,7 +121,7 @@ export async function runExperience() {
     Scenes.show("scene-confirm");
     window.scrollTo({ top: 0, behavior: "instant" });
     await DoorFX.open(document.getElementById("confirm-panel"));
-    document.getElementById("confirm-title").focus({ preventScroll: true });
+    document.getElementById("confirm-greeting").focus({ preventScroll: true });
   });
 
   // La fuente puede fallar sin bloquear la experiencia. Una carga tardía

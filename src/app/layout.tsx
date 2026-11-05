@@ -5,7 +5,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: CONFIG.copy.title,
   description:
-    "Una invitación personal al cumpleaños de Diego. Una noche fuera del sistema.",
+    "Algo ha pasado. Entra al enlace y descúbrelo.",
 };
 
 export const viewport: Viewport = {

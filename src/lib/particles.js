@@ -1,6 +1,7 @@
 /* Canvas nativo: anillo halftone, vuelo curvo sin resortes y letras
    muestreadas desde la geometría real del DOM. Coordenadas en píxeles CSS. */
 import { CONFIG } from "./constants";
+import { fitIntroText } from "./scenes";
 const TAU = Math.PI * 2;
   const clamp = (n) => Math.max(0, Math.min(1, n));
   const ease = (t) => t * t * (3 - 2 * t); // Monótono: nunca rebasa el destino.

@@ -50,7 +50,7 @@ export const DoorFX = {
   },
 };
 
-function fitIntroText() {
+export function fitIntroText() {
   const el = document.getElementById("intro-text");
   el.style.fontSize = "";
   const width = el.parentElement.clientWidth;
@@ -99,10 +99,8 @@ export async function runBootSequence() {
 
 export async function runIntroSequence(particles) {
   const t = CONFIG.timings;
-  const reticle = document.getElementById("core-reticle");
   const phase = (name) => { document.body.dataset.phase = name; };
   const materialize = async (text, isInvitation) => {
-    reticle.classList.add("quiet");
     const el = prepareIntroText(text, isInvitation);
     await particles.formText(el);
     await wait(CONFIG.particles.formedHold);
@@ -120,7 +118,6 @@ export async function runIntroSequence(particles) {
   phase("reform");
   document.getElementById("intro-text").classList.remove("materialized");
   document.getElementById("intro-text").setAttribute("aria-hidden", "true");
-  reticle.classList.remove("quiet");
   await particles.reform();
   await wait(t.reformPause);
 
