@@ -37,6 +37,7 @@ export const CONFIG = {
       namePlaceholder: "Tu nombre y apellidos",
       submit: "CONFIRMAR ASISTENCIA",
       submitting: "ABRIENDO TU ACCESO",
+      errorSubmit: "No se pudo conectar. Inténtalo de nuevo.",
       errorDni: "Ingresa los 8 dígitos de tu DNI.",
       errorName: "Ingresa tu nombre completo (mín. 3 caracteres).",
       progress: "{count}/02 CAMPOS COMPLETOS",
@@ -54,6 +55,9 @@ export const CONFIG = {
       tag: "D / ADMIT ONE",
       greeting:
         "Acceso confirmado a nombre de {nombre}.",
+      alreadyGreeting:
+        "Ya estabas en la lista, {nombre}. Tu acceso sigue intacto.",
+      bannedMessage: "NO TIENES ACCESO A ESTE EVENTO",
       addressLabel: "LUGAR",
       dateLabel: "FECHA Y HORA",
       maps: "VER UBICACIÓN",
@@ -105,5 +109,4 @@ export const CONFIG = {
     curve: 0.2,
     maxPixelRatio: 2,
   },
-  fakeSubmitDelay: 1200,
 };

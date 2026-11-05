@@ -105,6 +105,15 @@ body[data-stage="boot"], body[data-stage="intro"] { overflow: hidden; }
 .panel-main { padding: 38px 38px 34px; min-width: 0; }
 .section-title { color: var(--accent-soft); font: 400 17px/1.6 var(--font-mono); letter-spacing: -0.5px; }
 .form-hint, .confirm-greeting { font-size: 10px; line-height: 1.95; color: var(--text-dim); margin-top: 12px; overflow-wrap: anywhere; }
+
+/* Registro bloqueado: solo el mensaje de acceso denegado. */
+#confirm-panel.banned .panel-top,
+#confirm-panel.banned .panel-aside,
+#confirm-panel.banned .event-details,
+#confirm-panel.banned .maps-action,
+#confirm-panel.banned .confirm-warning,
+#confirm-panel.banned .panel-bottom { display: none; }
+#confirm-panel.banned .confirm-greeting { font-size: 14px; letter-spacing: 1.2px; font-weight: 700; color: var(--glitch-pink); margin-top: 35%; text-align: center; animation: warning-glitch 3s infinite steps(1); }
 .field-block { margin-top: 25px; }
 .field-heading { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; margin-bottom: 10px; }
 .field-heading label { font: 10px var(--font-mono); color: var(--text); }

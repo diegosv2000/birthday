@@ -98,11 +98,17 @@ export async function runExperience() {
     // Capturar antes del reset; nunca usar innerHTML con datos del invitado.
     const guestName = inputName.value.trim().replace(/\s+/g, " ");
     btnSubmit.disabled = true;
+    document.getElementById("form-error").hidden = true;
     for (const f of fields) f.input.readOnly = true;
     form.setAttribute("aria-busy", "true");
     document.getElementById("submit-label").textContent = CONFIG.copy.form.submitting;
     const process = document.getElementById("process-console");
     process.hidden = false;
+    const submitPromise = fetch("/api/rsvp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ dni: inputDni.value.trim(), fullName: guestName }),
+    }).then(async (response) => ({ ok: response.ok, data: await response.json() }));
     for (const text of CONFIG.copy.form.processLines) {
       const line = document.createElement("div");
       line.className = "pc-line";
@@ -110,12 +116,34 @@ export async function runExperience() {
       process.appendChild(line);
       await wait(CONFIG.timings.processLine);
     }
-    await wait(CONFIG.fakeSubmitDelay);
+    let rsvp;
+    try {
+      rsvp = await submitPromise;
+      if (!rsvp.ok && !rsvp.data.banned) throw new Error("rsvp-failed");
+    } catch {
+      submitted = false;
+      btnSubmit.disabled = false;
+      for (const f of fields) f.input.readOnly = false;
+      form.removeAttribute("aria-busy");
+      process.replaceChildren();
+      process.hidden = true;
+      const errorBox = document.getElementById("form-error");
+      errorBox.textContent = CONFIG.copy.form.errorSubmit;
+      errorBox.hidden = false;
+      return;
+    }
     form.removeAttribute("aria-busy");
     await DoorFX.close(form);
     Scenes.hide("scene-form");
     form.reset();
-    document.getElementById("confirm-greeting").textContent = CONFIG.copy.confirm.greeting.replace("{nombre}", () => guestName);
+    const greeting = document.getElementById("confirm-greeting");
+    if (rsvp.data.banned) {
+      greeting.textContent = CONFIG.copy.confirm.bannedMessage;
+      document.getElementById("confirm-panel").classList.add("banned");
+    } else {
+      const template = rsvp.data.alreadyRegistered ? CONFIG.copy.confirm.alreadyGreeting : CONFIG.copy.confirm.greeting;
+      greeting.textContent = template.replace("{nombre}", () => guestName);
+    }
     document.body.dataset.stage = "confirm";
     Scenes.progress(2);
     Scenes.show("scene-confirm");

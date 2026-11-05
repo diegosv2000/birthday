@@ -66,6 +66,7 @@ export default function Experience() {
                   <div className="submit-area stagger" style={order(6)}>
                     <button type="submit" id="btn-submit" className="btn-terminal btn-full"><span id="submit-label" data-copy="form.submit"></span><span className="button-arrow" aria-hidden="true">↗</span></button>
                     <div className="process-console" id="process-console" role="log" aria-live="polite" aria-relevant="additions" hidden></div>
+                    <p className="error-msg" id="form-error" hidden></p>
                   </div>
                 </div>
               </div>
