@@ -8,9 +8,9 @@ export const CONFIG = {
     "invitation found",
     "connection established",
   ],
-  direccion: "Jr. República del Líbano 155, Santiago de Surco, Lima",
-  fechaHora: "Sábado 28 de noviembre de 2026 · 6:30 p.m.",
-  mapsUrl: "https://maps.app.goo.gl/3y88nivanGW74iK59",
+  direccion: "Jirón Larrabure y Unanue 330, Jesús María, Lima",
+  fechaHora: "Sábado 28 de noviembre de 2026 · 7:00 p.m.",
+  mapsUrl: "https://maps.app.goo.gl/EU2CvivP9kpDZzRX7",
   copy: {
     title: " ",
     boot: {
@@ -63,7 +63,7 @@ export const CONFIG = {
       maps: "VER UBICACIÓN",
       mapsHint: "ABRIR EN GOOGLE MAPS ↗",
       warning:
-        "⚠ Sé puntual, empezamos a las 6:30 p.m.",
+        "⚠ Sé puntual, empezamos a las 7:00 p.m.",
     },
   },
   validation: { dniDigits: 8, nameMin: 3 },
