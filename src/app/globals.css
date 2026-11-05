@@ -106,14 +106,17 @@ body[data-stage="boot"], body[data-stage="intro"] { overflow: hidden; }
 .section-title { color: var(--accent-soft); font: 400 17px/1.6 var(--font-mono); letter-spacing: -0.5px; }
 .form-hint, .confirm-greeting { font-size: 10px; line-height: 1.95; color: var(--text-dim); margin-top: 12px; overflow-wrap: anywhere; }
 
-/* Registro bloqueado: solo el mensaje de acceso denegado. */
+/* Registro bloqueado: solo el mensaje de acceso denegado, centrado en el panel. */
 #confirm-panel.banned .panel-top,
 #confirm-panel.banned .panel-aside,
 #confirm-panel.banned .event-details,
 #confirm-panel.banned .maps-action,
 #confirm-panel.banned .confirm-warning,
 #confirm-panel.banned .panel-bottom { display: none; }
-#confirm-panel.banned .confirm-greeting { font-size: 14px; letter-spacing: 1.2px; font-weight: 700; color: var(--glitch-pink); margin-top: 35%; text-align: center; animation: warning-glitch 3s infinite steps(1); }
+#confirm-panel.banned .panel-surface { min-height: min(560px, 72svh); display: flex; flex-direction: column; }
+#confirm-panel.banned .panel-layout { flex: 1; display: flex; align-items: center; justify-content: center; }
+#confirm-panel.banned .panel-main { width: 100%; padding: 0; }
+#confirm-panel.banned .confirm-greeting { font-size: 14px; letter-spacing: 1.2px; font-weight: 700; color: var(--glitch-pink); margin-top: 0; text-align: center; animation: warning-glitch 3s infinite steps(1); }
 .field-block { margin-top: 25px; }
 .field-heading { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; margin-bottom: 10px; }
 .field-heading label { font: 10px var(--font-mono); color: var(--text); }
