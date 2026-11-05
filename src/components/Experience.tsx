@@ -91,7 +91,7 @@ export default function Experience() {
                     <div className="event-row stagger" style={order(4)}><dt><span aria-hidden="true">↳</span><span data-copy="confirm.addressLabel"></span></dt><dd id="confirm-address"></dd></div>
                     <div className="event-row stagger" style={order(5)}><dt><span aria-hidden="true">◷</span><span data-copy="confirm.dateLabel"></span></dt><dd id="confirm-datetime"></dd></div>
                   </dl>
-                  <p className="confirm-warning stagger" style={order(5)} data-copy="confirm.warning"></p>
+                  <p className="confirm-warning stagger" style={order(6)}><span data-copy="confirm.warning"></span></p>
                   <div className="maps-action stagger" style={order(6)}><a id="btn-maps" className="btn-terminal btn-full" target="_blank" rel="noopener noreferrer"><span data-copy="confirm.maps"></span><span className="button-arrow" aria-hidden="true">↗</span></a><p data-copy="confirm.mapsHint"></p></div>
                 </div>
               </div>
