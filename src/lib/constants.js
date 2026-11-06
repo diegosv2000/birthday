@@ -38,8 +38,9 @@ export const CONFIG = {
       submit: "CONFIRMAR ASISTENCIA",
       submitting: "ABRIENDO TU ACCESO",
       errorSubmit: "No se pudo conectar. Inténtalo de nuevo.",
+      errorRateLimit: "Has realizado demasiados intentos. Espera {seconds} segundos antes de volver a intentarlo.",
       errorDni: "Ingresa los 8 dígitos de tu DNI.",
-      errorName: "Ingresa tu nombre completo (mín. 3 caracteres).",
+      errorName: "Ingresa tu nombre completo (entre 3 y 120 caracteres).",
       progress: "{count}/02 CAMPOS COMPLETOS",
       processLines: [
         "verificando identidad… ok",
@@ -66,7 +67,7 @@ export const CONFIG = {
         "⚠ Sé puntual, empezamos a las 7:00 p.m.",
     },
   },
-  validation: { dniDigits: 8, nameMin: 3 },
+  validation: { dniDigits: 8, nameMin: 3, nameMax: 120 },
   colors: {
     particle: "#82B7BE",
     glow: "rgba(130, 183, 190, 0.8)",

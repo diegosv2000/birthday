@@ -1,21 +1,46 @@
 import { getGuestsCollection } from "@/lib/mongodb";
+import { consumeRsvpRateLimit } from "@/lib/rsvp-rate-limit";
+import { NAME_MAX, readRsvpBody, RsvpBodyError } from "@/lib/rsvp-body";
 
 const DNI_PATTERN = /^\d{8}$/;
 const NAME_MIN = 3;
 
 export async function POST(request: Request) {
-  let body: unknown;
   try {
-    body = await request.json();
+    const rateLimit = await consumeRsvpRateLimit(request);
+    if (!rateLimit.allowed) {
+      return Response.json({ error: "rate-limited" }, {
+        status: 429,
+        headers: { "Retry-After": String(rateLimit.retryAfter), "Cache-Control": "no-store" },
+      });
+    }
   } catch {
-    return Response.json({ error: "invalid-json" }, { status: 400 });
+    // Si el contador falla, no permitir registros sin protección.
+    console.error("[rsvp] rate limit unavailable");
+    return Response.json({ error: "temporarily-unavailable" }, {
+      status: 503,
+      headers: { "Retry-After": "60", "Cache-Control": "no-store" },
+    });
   }
 
-  const { dni, fullName } = (body ?? {}) as { dni?: unknown; fullName?: unknown };
+  let body: unknown;
+  try {
+    body = await readRsvpBody(request);
+  } catch (error) {
+    if (error instanceof RsvpBodyError) {
+      return Response.json({ error: error.message }, { status: error.status });
+    }
+    throw error;
+  }
+
+  if (typeof body !== "object" || body === null || Array.isArray(body)) {
+    return Response.json({ error: "invalid-fields" }, { status: 400 });
+  }
+  const { dni, fullName } = body as { dni?: unknown; fullName?: unknown };
   const cleanDni = typeof dni === "string" ? dni.trim() : "";
   const cleanName = typeof fullName === "string" ? fullName.trim() : "";
 
-  if (!DNI_PATTERN.test(cleanDni) || cleanName.length < NAME_MIN) {
+  if (!DNI_PATTERN.test(cleanDni) || cleanName.length < NAME_MIN || cleanName.length > NAME_MAX) {
     return Response.json({ error: "invalid-fields" }, { status: 400 });
   }
 

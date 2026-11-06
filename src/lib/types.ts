@@ -1,5 +1,11 @@
 export type GuestState = "Ready" | "Banned";
 
+export interface RateLimitDBO {
+  _id: string;
+  count: number;
+  expiresAt: Date;
+}
+
 export interface GuestDBO {
   /** Documento nacional de identidad: exactamente 8 dígitos. Índice único. */
   dni: string;

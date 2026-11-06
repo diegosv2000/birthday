@@ -1,4 +1,4 @@
-/* Orquestación y formulario de confirmación. No hay peticiones de registro. */
+/* Orquestación y formulario de confirmación. */
 import { CONFIG } from "./constants";
 import { ParticleSystem } from "./particles";
 import { wait, Scenes, DoorFX, runBootSequence, runIntroSequence } from "./scenes";
@@ -25,7 +25,7 @@ export async function runExperience() {
   const isDigits = (value) => /^\d+$/.test(value);
   const fields = [
     { input: inputDni, block: document.getElementById("field-dni"), error: document.getElementById("error-dni"), digits: CONFIG.validation.dniDigits },
-    { input: inputName, block: document.getElementById("field-name"), error: document.getElementById("error-name"), min: CONFIG.validation.nameMin },
+    { input: inputName, block: document.getElementById("field-name"), error: document.getElementById("error-name"), min: CONFIG.validation.nameMin, max: CONFIG.validation.nameMax },
   ];
   let submitted = false;
   let accepted = false;
@@ -39,7 +39,7 @@ export async function runExperience() {
     let count = 0;
     for (const f of fields) {
       const value = f.input.value.trim();
-      const valid = f.digits ? value.length === f.digits && isDigits(value) : value.length >= f.min;
+      const valid = f.digits ? value.length === f.digits && isDigits(value) : value.length >= f.min && value.length <= f.max;
       const invalid = showErrors && !valid;
       count += Number(valid);
       f.block.classList.toggle("valid", valid);
@@ -52,7 +52,10 @@ export async function runExperience() {
     return count === fields.length;
   };
   for (const f of fields) {
-    if (!f.digits) f.input.minLength = f.min;
+    if (!f.digits) {
+      f.input.minLength = f.min;
+      f.input.maxLength = f.max;
+    }
     f.input.addEventListener("input", () => {
       if (f.digits) f.input.value = f.input.value.replace(/\D/g, "").slice(0, f.digits);
       updateFields(validated);
@@ -108,7 +111,12 @@ export async function runExperience() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ dni: inputDni.value.trim(), fullName: guestName }),
-    }).then(async (response) => ({ ok: response.ok, data: await response.json() }));
+    }).then(async (response) => ({
+      ok: response.ok,
+      status: response.status,
+      retryAfter: response.headers.get("Retry-After"),
+      data: await response.json(),
+    })).catch(() => ({ ok: false, status: 0, data: {} }));
     for (const text of CONFIG.copy.form.processLines) {
       const line = document.createElement("div");
       line.className = "pc-line";
@@ -123,12 +131,15 @@ export async function runExperience() {
     } catch {
       submitted = false;
       btnSubmit.disabled = false;
+      document.getElementById("submit-label").textContent = CONFIG.copy.form.submit;
       for (const f of fields) f.input.readOnly = false;
       form.removeAttribute("aria-busy");
       process.replaceChildren();
       process.hidden = true;
       const errorBox = document.getElementById("form-error");
-      errorBox.textContent = CONFIG.copy.form.errorSubmit;
+      errorBox.textContent = rsvp?.status === 429
+        ? CONFIG.copy.form.errorRateLimit.replace("{seconds}", String(Math.max(1, Number(rsvp.retryAfter) || 60)))
+        : CONFIG.copy.form.errorSubmit;
       errorBox.hidden = false;
       return;
     }
