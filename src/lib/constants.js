@@ -10,6 +10,7 @@ export const CONFIG = {
   ],
   direccion: "Jirón Larrabure y Unanue 330, Jesús María, Lima",
   fechaHora: "Sábado 28 de noviembre de 2026 · 7:00 p.m.",
+  fechaHoraISO: "2026-11-28T19:00:00-05:00",
   mapsUrl: "https://maps.app.goo.gl/EU2CvivP9kpDZzRX7",
   copy: {
     title: " ",
